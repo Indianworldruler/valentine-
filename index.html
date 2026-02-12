@@ -3,11 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A Special Surprise</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<title>Special Surprise</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-
 *{
 margin:0;
 padding:0;
@@ -17,258 +16,265 @@ font-family:'Poppins',sans-serif;
 
 body{
 height:100vh;
+background:linear-gradient(135deg,#ffdde1,#ee9ca7);
+display:flex;
+justify-content:center;
+align-items:center;
 overflow:hidden;
-background:linear-gradient(135deg,#ffdde1,#ee9ca7);
-display:flex;
-justify-content:center;
-align-items:center;
-transition:1.5s ease;
+transition:1.5s;
 }
-
-/* INTRO OVERLAY */
-
-#intro{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:linear-gradient(135deg,#ffdde1,#ee9ca7);
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-z-index:999;
-transition:1s ease;
-}
-
-#intro h1{
-color:white;
-font-size:28px;
-margin-bottom:20px;
-text-align:center;
-}
-
-#intro button{
-padding:14px 30px;
-border:none;
-border-radius:30px;
-background:#ff4b7d;
-color:white;
-font-size:16px;
-cursor:pointer;
-box-shadow:0 10px 30px rgba(0,0,0,0.2);
-}
-
-/* MAIN CARD */
 
 .container{
-width:92%;
+width:95%;
 max-width:420px;
-min-height:450px;
-background:rgba(255,255,255,0.3);
+background:rgba(255,255,255,0.25);
 backdrop-filter:blur(20px);
-border-radius:35px;
-padding:40px 25px;
+border-radius:30px;
+padding:30px;
 box-shadow:0 25px 60px rgba(0,0,0,0.2);
 text-align:center;
 position:relative;
-overflow:hidden;
-opacity:0;
-transform:scale(0.9);
-transition:1.5s ease;
+transition:1s;
 }
 
-.container.active{
-opacity:1;
-transform:scale(1);
-}
-
-.title{
-font-size:26px;
-font-weight:600;
+h1{
 color:white;
 margin-bottom:20px;
 }
 
-.message{
-font-size:18px;
-color:white;
-min-height:80px;
+button{
+padding:12px 25px;
+border:none;
+border-radius:25px;
+cursor:pointer;
+font-size:15px;
+margin:8px;
+transition:0.3s;
 }
 
-/* NIGHT MODE */
+.yes{
+background:#ff4b7d;
+color:white;
+}
+
+.no{
+background:white;
+color:#ff4b7d;
+position:relative;
+}
+
+button:hover{
+transform:scale(1.05);
+}
+
+/* SPOTIFY PLAYER */
+
+.player{
+display:none;
+margin-top:20px;
+background:#121212;
+color:white;
+padding:20px;
+border-radius:20px;
+}
+
+.album{
+width:120px;
+height:120px;
+margin:auto;
+background:linear-gradient(135deg,#ff4b7d,#ff9a9e);
+border-radius:15px;
+margin-bottom:15px;
+animation:rotate 10s linear infinite;
+}
+
+@keyframes rotate{
+from{transform:rotate(0deg);}
+to{transform:rotate(360deg);}
+}
+
+.progress{
+width:100%;
+height:6px;
+background:#333;
+border-radius:5px;
+margin-top:10px;
+overflow:hidden;
+}
+
+.progress-bar{
+height:100%;
+width:0%;
+background:#1db954;
+}
+
+.time{
+display:flex;
+justify-content:space-between;
+font-size:12px;
+margin-top:5px;
+}
+
+.final{
+display:none;
+color:white;
+}
 
 body.night{
 background:linear-gradient(135deg,#141e30,#243b55);
 }
 
-body.night .container{
-background:rgba(0,0,0,0.6);
-}
-
-/* STARS */
-
-.star{
+.emoji{
 position:absolute;
-width:2px;
-height:2px;
-background:white;
-border-radius:50%;
-animation:twinkle 2s infinite alternate;
-}
-
-@keyframes twinkle{
-from{opacity:0.3;}
-to{opacity:1;}
-}
-
-/* FLOATING HEARTS */
-
-.heart{
-position:absolute;
-font-size:20px;
-color:#ffd700;
-animation:float 6s linear forwards;
+font-size:22px;
+animation:float 6s linear infinite;
 }
 
 @keyframes float{
 0%{transform:translateY(0);opacity:1;}
-100%{transform:translateY(-800px);opacity:0;}
-}
-
-/* CONFETTI */
-
-.confetti{
-position:absolute;
-width:8px;
-height:8px;
-background:yellow;
-animation:confettiFall 4s linear forwards;
-}
-
-@keyframes confettiFall{
-0%{transform:translateY(-10px) rotate(0);}
-100%{transform:translateY(800px) rotate(360deg);}
+100%{transform:translateY(-600px);opacity:0;}
 }
 
 </style>
 </head>
 <body>
 
-<div id="intro">
-<h1>Tap Once ✨<br>And Let The Magic Begin</h1>
-<button id="startBtn">Start</button>
+<div class="container" id="mainCard">
+
+<h1 id="title">Do you trust me? ❤️</h1>
+
+<div id="buttons">
+<button class="yes" onclick="startChat()">Yes</button>
+<button class="no" id="noBtn">No</button>
 </div>
 
-<div class="container" id="card">
-<div class="title" id="title"></div>
-<div class="message" id="message"></div>
+<div id="chat" style="display:none;color:white;margin-top:15px;"></div>
+
+<button id="playBtn" style="display:none;" class="yes">Play The Surprise 🎵</button>
+
+<div class="player" id="player">
+<div class="album"></div>
+<h3>Sunshine</h3>
+<p style="font-size:13px;color:#aaa;">A small surprise for you</p>
+
+<div class="progress">
+<div class="progress-bar" id="progressBar"></div>
 </div>
 
-<audio id="music" src="sunshine.mp3" loop></audio>
+<div class="time">
+<span id="currentTime">0:00</span>
+<span>0:30</span>
+</div>
+
+<p style="margin-top:15px;font-size:13px;color:#bbb;">
+Close your eyes… let the song finish ✨
+</p>
+</div>
+
+<div class="final" id="finalPage">
+<h2>🌙 Stay Warm</h2>
+<p style="margin-top:15px;">
+No matter how hectic life gets…  
+You deserve calm.  
+You deserve warmth.  
+And someone silently rooting for you.
+</p>
+
+<button class="yes" onclick="extraLove()">Send More Love 💛</button>
+</div>
+
+</div>
+
+<audio id="music" src="sunshine.mp3"></audio>
 
 <script>
 
-const intro = document.getElementById("intro");
-const startBtn = document.getElementById("startBtn");
-const card = document.getElementById("card");
-const title = document.getElementById("title");
-const message = document.getElementById("message");
+const noBtn = document.getElementById("noBtn");
+const chat = document.getElementById("chat");
+const playBtn = document.getElementById("playBtn");
+const player = document.getElementById("player");
 const music = document.getElementById("music");
+const progressBar = document.getElementById("progressBar");
+const currentTimeEl = document.getElementById("currentTime");
+const finalPage = document.getElementById("finalPage");
 
-const lines = [
-"Hey ❤️",
-"I know life gets hectic sometimes...",
-"But even in chaos...",
-"You deserve calm.",
-"You deserve warmth.",
-"You deserve someone who stays.",
-"And tonight...",
-"This is just for you."
-];
-
-let index = 0;
-
-startBtn.addEventListener("click", () => {
-
-music.play();
-
-intro.style.opacity = "0";
-setTimeout(()=> intro.style.display="none",1000);
-
-card.classList.add("active");
-
-startStory();
-startHearts();
-
+noBtn.addEventListener("click",()=>{
+noBtn.style.position="absolute";
+noBtn.style.left=Math.random()*200+"px";
+noBtn.style.top=Math.random()*200+"px";
 });
 
-function startStory(){
-typeLine();
-}
+function startChat(){
+document.getElementById("buttons").style.display="none";
+chat.style.display="block";
 
-function typeLine(){
-if(index < lines.length){
-title.innerText = lines[index];
-message.innerText = "";
+const messages=[
+"Okay good 😌",
+"I wanted to show you something small...",
+"Just 30 seconds of your time.",
+"Ready?"
+];
+
 let i=0;
-let typing = setInterval(()=>{
-message.innerText += lines[index][i];
+let interval=setInterval(()=>{
+chat.innerHTML+="<p>"+messages[i]+"</p>";
 i++;
-if(i >= lines[index].length){
-clearInterval(typing);
-index++;
-setTimeout(typeLine,2000);
+if(i>=messages.length){
+clearInterval(interval);
+playBtn.style.display="inline-block";
 }
-},40);
-}else{
-finalScene();
-}
+},1200);
 }
 
-function finalScene(){
+playBtn.addEventListener("click",()=>{
+player.style.display="block";
+music.play();
+updateProgress();
+});
 
+function updateProgress(){
+let duration=30;
+let interval=setInterval(()=>{
+let current=music.currentTime;
+let percent=(current/duration)*100;
+progressBar.style.width=percent+"%";
+currentTimeEl.innerText=formatTime(current);
+
+if(current>=duration){
+clearInterval(interval);
+endSong();
+}
+},500);
+}
+
+function formatTime(sec){
+let minutes=Math.floor(sec/60);
+let seconds=Math.floor(sec%60);
+if(seconds<10) seconds="0"+seconds;
+return minutes+":"+seconds;
+}
+
+function endSong(){
+player.style.display="none";
 document.body.classList.add("night");
-createStars();
-createConfetti();
-
-title.innerText = "Stay Warm 🌙";
-message.innerText = "No matter what happens, I'm rooting for you.";
-
+finalPage.style.display="block";
+startEmojis();
 }
 
-function startHearts(){
+function startEmojis(){
 setInterval(()=>{
-const heart = document.createElement("div");
-heart.classList.add("heart");
-heart.innerText="💛";
-heart.style.left=Math.random()*100+"%";
-heart.style.bottom="0px";
-document.body.appendChild(heart);
-setTimeout(()=>heart.remove(),6000);
-},700);
+const emoji=document.createElement("div");
+emoji.classList.add("emoji");
+emoji.innerText=["💛","✨","🌟","💫"][Math.floor(Math.random()*4)];
+emoji.style.left=Math.random()*100+"%";
+emoji.style.bottom="0px";
+document.body.appendChild(emoji);
+setTimeout(()=>emoji.remove(),6000);
+},600);
 }
 
-function createStars(){
-for(let i=0;i<80;i++){
-const star=document.createElement("div");
-star.classList.add("star");
-star.style.top=Math.random()*100+"%";
-star.style.left=Math.random()*100+"%";
-document.body.appendChild(star);
-}
-}
-
-function createConfetti(){
-for(let i=0;i<80;i++){
-const c=document.createElement("div");
-c.classList.add("confetti");
-c.style.left=Math.random()*100+"%";
-c.style.background=`hsl(${Math.random()*360},100%,50%)`;
-document.body.appendChild(c);
-setTimeout(()=>c.remove(),4000);
-}
+function extraLove(){
+alert("You just unlocked extra warmth 💛");
 }
 
 </script>
