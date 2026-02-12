@@ -1,77 +1,84 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For My Forever Best Friend 💛</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+<title>Forever Best Friends 💛</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{
 height:100vh;
+font-family:'Poppins',sans-serif;
 display:flex;
 justify-content:center;
 align-items:center;
-background:radial-gradient(circle at top,#ff9a9e,#fad0c4,#fad0c4);
-font-family:'Poppins',sans-serif;
 overflow:hidden;
+background:linear-gradient(-45deg,#ff9a9e,#fad0c4,#fbc2eb,#a6c1ee);
+background-size:400% 400%;
+animation:gradient 12s ease infinite;
+cursor:none;
+}
+
+@keyframes gradient{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
 }
 
 .container{
 width:95%;
 max-width:420px;
 height:85vh;
-background:white;
+background:rgba(255,255,255,0.25);
+backdrop-filter:blur(15px);
 border-radius:30px;
-box-shadow:0 30px 60px rgba(0,0,0,0.25);
+box-shadow:0 25px 60px rgba(0,0,0,0.3);
+padding:25px;
 position:relative;
 overflow:hidden;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-padding:20px;
+transition:1s;
 }
 
-.scene{display:none;width:100%;text-align:center}
-.scene.active{display:block;animation:fade 0.7s ease}
+.scene{display:none;text-align:center}
+.scene.active{display:block;animation:fade 0.6s ease}
 
 @keyframes fade{
 from{opacity:0;transform:translateY(20px)}
 to{opacity:1;transform:translateY(0)}
 }
 
-h2{
-font-family:'Fredoka',sans-serif;
-color:#ff4d6d;
-margin-bottom:15px;
-}
-
+h2{margin-bottom:15px;color:#ff3366;font-weight:700}
 button{
-padding:10px 20px;
+padding:12px 22px;
 border:none;
-border-radius:25px;
-cursor:pointer;
+border-radius:30px;
 margin:8px;
 font-weight:600;
+cursor:pointer;
 transition:0.3s;
 }
-
-.yes{background:#ff4d6d;color:white}
-.no{background:#eee}
+.yes{
+background:#ff3366;
+color:white;
+box-shadow:0 5px 20px rgba(255,51,102,0.4);
+}
+.yes:hover{transform:scale(1.1)}
+.no{background:white}
 
 input{
 padding:10px;
-border-radius:15px;
-border:1px solid #ddd;
-margin-bottom:15px;
+border-radius:20px;
+border:none;
 width:80%;
+margin-bottom:15px;
 }
 
-.chat-box{
-height:300px;
+.chat{
+height:280px;
 overflow-y:auto;
-background:#fff0f5;
+background:rgba(255,255,255,0.5);
 border-radius:20px;
 padding:15px;
 display:flex;
@@ -79,20 +86,18 @@ flex-direction:column;
 gap:10px;
 }
 
-.message{
-max-width:75%;
+.msg{
 padding:10px 15px;
 border-radius:20px;
+max-width:75%;
 animation:pop 0.3s ease;
 }
-
 .me{
-background:#ff4d6d;
+background:#ff3366;
 color:white;
 align-self:flex-end;
 border-bottom-right-radius:5px;
 }
-
 .her{
 background:white;
 align-self:flex-start;
@@ -100,212 +105,225 @@ border-bottom-left-radius:5px;
 }
 
 @keyframes pop{
-from{transform:scale(0.8);opacity:0}
-to{transform:scale(1);opacity:1}
+from{opacity:0;transform:scale(0.8)}
+to{opacity:1;transform:scale(1)}
 }
 
-.gallery{
+.glow-text{
+font-size:20px;
+font-weight:600;
+animation:glow 2s ease-in-out infinite alternate;
+}
+@keyframes glow{
+from{text-shadow:0 0 10px #fff}
+to{text-shadow:0 0 25px #ffcc00}
+}
+
+.badge{
+margin-top:20px;
+padding:15px;
+border-radius:50%;
+background:gold;
+width:120px;
+height:120px;
 display:flex;
-flex-wrap:wrap;
 justify-content:center;
-gap:10px;
-margin-top:15px;
+align-items:center;
+font-weight:bold;
+animation:pulse 2s infinite;
+}
+@keyframes pulse{
+0%{transform:scale(1)}
+50%{transform:scale(1.1)}
+100%{transform:scale(1)}
 }
 
-.polaroid{
-background:white;
-padding:10px;
-box-shadow:0 10px 20px rgba(0,0,0,0.2);
-transform:rotate(-5deg);
-animation:drop 0.6s ease forwards;
-opacity:0;
-}
-
-.polaroid img{
-width:100px;
-height:100px;
-object-fit:cover;
-}
-
-@keyframes drop{
-to{opacity:1;transform:rotate(0deg)}
-}
-
-canvas{
-position:fixed;
-top:0;
-left:0;
-pointer-events:none;
-}
-
-.hearts{
+.sparkle{
 position:absolute;
-width:100%;
-height:100%;
-pointer-events:none;
+width:6px;
+height:6px;
+background:gold;
+border-radius:50%;
+animation:spark 4s linear infinite;
 }
-
-.heart{
-position:absolute;
-font-size:18px;
-animation:float 6s linear infinite;
-}
-
-@keyframes float{
+@keyframes spark{
 0%{transform:translateY(0);opacity:1}
 100%{transform:translateY(-100vh);opacity:0}
 }
+
+.heart-trail{
+position:absolute;
+pointer-events:none;
+font-size:18px;
+animation:fadeOut 1s linear forwards;
+}
+@keyframes fadeOut{
+to{opacity:0;transform:translateY(-20px)}
+}
+
+.final-night{
+background:#0f2027 !important;
+background:linear-gradient(to top,#203a43,#2c5364) !important;
+color:white;
+}
 </style>
 </head>
+
 <body>
 
-<canvas id="confetti"></canvas>
-<div class="hearts" id="hearts"></div>
-
-<div class="container">
+<div class="container" id="container">
 
 <div class="scene active" id="scene1">
 <h2>Hey Bestie 💛</h2>
-<p>Enter your name first...</p>
 <input type="text" id="nameInput" placeholder="Your name">
-<button onclick="start()">Start</button>
+<button class="yes" onclick="start()">Start</button>
 </div>
 
 <div class="scene" id="scene2">
-<h2 id="greeting"></h2>
+<h2 id="greet"></h2>
 <p>Will you stay my best friend forever?</p>
-<button class="yes" onclick="showChat()">YES 💖</button>
+<button class="yes" onclick="yesClicked()">YES 💖</button>
 <button class="no" id="noBtn">NO 😒</button>
 </div>
 
 <div class="scene" id="scene3">
-<h2>Our Conversation 💬</h2>
-<div class="chat-box" id="chatBox"></div>
-<button onclick="showGallery()">Next 📸</button>
+<h2>Our Chat 💬</h2>
+<div class="chat" id="chatBox"></div>
+<button class="yes" onclick="playSong()">Play Surprise 🎵</button>
 </div>
 
 <div class="scene" id="scene4">
-<h2>Our Memories 📸</h2>
-<div class="gallery">
-<div class="polaroid" style="animation-delay:0.2s"><img src="https://picsum.photos/200?1"></div>
-<div class="polaroid" style="animation-delay:0.4s"><img src="https://picsum.photos/200?2"></div>
-<div class="polaroid" style="animation-delay:0.6s"><img src="https://picsum.photos/200?3"></div>
+<div class="glow-text" id="typewriter"></div>
+<div class="badge" id="badge" style="display:none;">FOREVER<br>BESTIES</div>
+<div id="quiz" style="display:none;margin-top:20px;">
+<p>What type of bond do we have?</p>
+<button class="yes" onclick="showResult()">Soul-Level Besties 💛</button>
 </div>
-<button onclick="showVoice()">Final Surprise 🎤</button>
+<div id="result" style="display:none;margin-top:15px;font-weight:bold;">
+Exactly. Unbreakable. Always.
+</div>
 </div>
 
-<div class="scene" id="scene5">
-<h2 id="finalTitle"></h2>
-<p>Press play for something special 💛</p>
-<button class="yes" onclick="playVoice()">Play Voice Message 🎤</button>
-<audio id="voiceMessage">
-<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+</div>
+
+<audio id="sunshine">
+<source src="sunshine.mp3" type="audio/mpeg">
 </audio>
-</div>
-
-</div>
 
 <script>
-let userName=""
-
-function start(){
-userName=document.getElementById("nameInput").value||"Bestie"
-switchScene("scene1","scene2")
-document.getElementById("greeting").innerText="Hi "+userName+" 🥹"
-}
-
+let name=""
 function switchScene(a,b){
 document.getElementById(a).classList.remove("active")
 document.getElementById(b).classList.add("active")
 }
 
-document.getElementById("noBtn").addEventListener("mouseover",()=>{
-let x=Math.random()*200-100
-let y=Math.random()*200-100
-noBtn.style.position="relative"
+function start(){
+name=document.getElementById("nameInput").value||"Bestie"
+document.getElementById("greet").innerText="Hi "+name+" 🥹"
+switchScene("scene1","scene2")
+}
+
+let noBtn=document.getElementById("noBtn")
+noBtn.addEventListener("mouseover",moveNo)
+noBtn.addEventListener("click",moveNo)
+
+function moveNo(){
+let container=document.getElementById("container")
+let rect=container.getBoundingClientRect()
+let x=Math.random()*(rect.width-100)
+let y=Math.random()*(rect.height-50)
+noBtn.style.position="absolute"
 noBtn.style.left=x+"px"
 noBtn.style.top=y+"px"
-})
+}
 
-function showChat(){
+function yesClicked(){
 switchScene("scene2","scene3")
 startChat()
-launchHearts()
 }
 
 function startChat(){
 let chat=document.getElementById("chatBox")
-let messages=[
-{type:"me",text:"Hey "+userName+" 💛"},
-{type:"her",text:"What now 😂"},
-{type:"me",text:"Just wanted to say something..."},
-{type:"her",text:"Hmmmm 👀"},
-{type:"me",text:"Life is better with you in it."},
-{type:"her",text:"Awww idiot 🥹"},
-{type:"me",text:"Forever best friends?"}
+let msgs=[
+{name:"me",text:"Hey "+name+" 💛"},
+{name:"her",text:"What now 😂"},
+{name:"me",text:"Just wanted to remind you..."},
+{name:"her",text:"Hmm 👀"},
+{name:"me",text:"You are my sunshine."},
+{name:"her",text:"Shut up 🥹"},
+{name:"me",text:"Forever best friends?"}
 ]
 let i=0
 let interval=setInterval(()=>{
-if(i<messages.length){
-let msg=document.createElement("div")
-msg.className="message "+messages[i].type
-msg.innerText=messages[i].text
-chat.appendChild(msg)
+if(i<msgs.length){
+let div=document.createElement("div")
+div.className="msg "+msgs[i].name
+div.innerText=msgs[i].text
+chat.appendChild(div)
 chat.scrollTop=chat.scrollHeight
 i++
 }else clearInterval(interval)
-},1000)
+},900)
 }
 
-function showGallery(){
+function playSong(){
 switchScene("scene3","scene4")
+let audio=document.getElementById("sunshine")
+audio.volume=0
+audio.play()
+let fadeIn=setInterval(()=>{
+if(audio.volume<1){audio.volume+=0.05}
+else clearInterval(fadeIn)
+},200)
+audio.onended=finalSequence
 }
 
-function showVoice(){
-switchScene("scene4","scene5")
-document.getElementById("finalTitle").innerText="Forever, "+userName+" 💛"
-launchConfetti()
+function finalSequence(){
+document.body.classList.add("final-night")
+typeWriter("You are my sunshine, "+name+" 💛\n\nNo matter what happens in life, I’ve got you. Always.")
+launchSparkles()
+setTimeout(()=>{
+document.getElementById("badge").style.display="flex"
+document.getElementById("quiz").style.display="block"
+},4000)
 }
 
-function playVoice(){
-document.getElementById("voiceMessage").play()
+function typeWriter(text){
+let i=0
+function typing(){
+if(i<text.length){
+document.getElementById("typewriter").innerHTML+=text.charAt(i)
+i++
+setTimeout(typing,40)
+}
+}
+typing()
 }
 
-function launchHearts(){
-for(let i=0;i<30;i++){
+function showResult(){
+document.getElementById("result").style.display="block"
+}
+
+function launchSparkles(){
+for(let i=0;i<50;i++){
+let s=document.createElement("div")
+s.className="sparkle"
+s.style.left=Math.random()*100+"vw"
+s.style.animationDuration=(Math.random()*3+2)+"s"
+document.body.appendChild(s)
+setTimeout(()=>{s.remove()},4000)
+}
+}
+
+document.addEventListener("mousemove",e=>{
 let heart=document.createElement("div")
-heart.className="heart"
+heart.className="heart-trail"
 heart.innerHTML="💛"
-heart.style.left=Math.random()*100+"vw"
-heart.style.animationDuration=Math.random()*3+3+"s"
-document.getElementById("hearts").appendChild(heart)
-setTimeout(()=>{heart.remove()},6000)
-}
-}
-
-let canvas=document.getElementById("confetti")
-let ctx=canvas.getContext("2d")
-canvas.width=window.innerWidth
-canvas.height=window.innerHeight
-let pieces=[]
-function launchConfetti(){
-for(let i=0;i<120;i++){
-pieces.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*6+4})
-}
-draw()
-}
-function draw(){
-ctx.clearRect(0,0,canvas.width,canvas.height)
-for(let p of pieces){
-ctx.beginPath()
-ctx.arc(p.x,p.y,p.r,0,Math.PI*2)
-ctx.fillStyle="hsl("+Math.random()*360+",100%,50%)"
-ctx.fill()
-p.y+=2
-if(p.y>canvas.height)p.y=0
-}
-requestAnimationFrame(draw)
-}
+heart.style.left=e.pageX+"px"
+heart.style.top=e.pageY+"px"
+document.body.appendChild(heart)
+setTimeout(()=>{heart.remove()},1000)
+})
 </script>
 
 </body>
