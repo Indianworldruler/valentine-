@@ -152,6 +152,7 @@
             justify-content: center;
             margin-top: 30px;
             position: relative;
+            min-height: 60px;
         }
 
         .btn {
@@ -178,8 +179,13 @@
         .btn-no {
             background: linear-gradient(135deg, #f093fb, #f5576c);
             color: white;
-            position: absolute;
             box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .btn-no.moving {
+            position: absolute;
         }
 
         .btn-no:hover {
@@ -609,7 +615,7 @@
             top: 20%;
             left: 5%;
             border-radius: 8px;
-            padding: 30px 25px;
+            padding: 30px 25px 80px 25px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
             transform: translateY(0);
             transition: transform 0.8s ease;
@@ -628,6 +634,7 @@
         .letter-content {
             text-align: left;
             color: #333;
+            padding-bottom: 30px;
         }
 
         .letter-content h3 {
@@ -648,6 +655,7 @@
         .letter-signature {
             text-align: right;
             margin-top: 30px;
+            margin-bottom: 30px;
             font-style: italic;
             color: #764ba2;
             font-size: 1.1em;
@@ -655,7 +663,7 @@
 
         .continue-from-letter-btn {
             display: block;
-            margin: 25px auto 10px;
+            margin: 0 auto 30px;
             padding: 15px 45px;
             font-size: 1.2em;
             border: none;
@@ -849,6 +857,7 @@
         /* Final Section */
         .final-section {
             text-align: center;
+            padding: 20px 0;
         }
 
         .final-section h2 {
@@ -974,6 +983,10 @@
                 font-size: 1em;
             }
 
+            .button-container {
+                min-height: 80px;
+            }
+
             .album-art-container {
                 max-width: 260px;
             }
@@ -1008,11 +1021,23 @@
             }
 
             .final-section h2 {
-                font-size: 2em;
+                font-size: 1.5em;
+                margin-bottom: 15px;
             }
 
             .final-section p {
-                font-size: 1em;
+                font-size: 0.95em;
+                margin: 15px 0 !important;
+            }
+
+            .final-hearts {
+                font-size: 22px;
+                margin-top: 15px;
+            }
+
+            .final-section > div:first-child {
+                font-size: 50px !important;
+                margin-bottom: 15px !important;
             }
 
             .envelope {
@@ -1027,7 +1052,7 @@
             }
 
             .letter-paper {
-                padding: 20px 15px;
+                padding: 20px 15px 100px 15px;
                 font-size: 0.9em;
             }
 
@@ -1189,11 +1214,13 @@
 
         <!-- Final Section -->
         <div class="section final-section">
-            <div style="font-size: 100px; margin-bottom: 30px; animation: bounce 2s ease-in-out infinite;">🌟</div>
-            <h2>You're My Sunshine! 🌞</h2>
-            <p style="font-size: 1.3em; margin: 30px 0; line-height: 1.8;">
-                Thank you for being the most amazing best friend anyone could ask for. 
-                You light up my life in ways you can't even imagine!
+            <div style="font-size: 70px; margin-bottom: 20px; animation: bounce 2s ease-in-out infinite;">✨</div>
+            <h2 style="font-size: 2em; margin-bottom: 20px;">This Is Just The Beginning</h2>
+            <p style="font-size: 1.1em; margin: 20px 0; line-height: 1.7;">
+                Every moment we've shared, every laugh, every tear - they've all been building blocks of something beautiful. Our friendship is a treasure I hold close to my heart.
+            </p>
+            <p style="font-size: 1.1em; margin: 20px 0; line-height: 1.7; color: #764ba2; font-weight: 500;">
+                Thank you for being you, for believing in me, and for making life so much brighter. Here's to many more adventures together! 🌟
             </p>
             <div class="final-hearts">
                 <span>💛</span>
@@ -1202,10 +1229,10 @@
                 <span>💫</span>
                 <span>⭐</span>
             </div>
-            <p style="color: #764ba2; font-weight: bold; font-size: 1.4em; margin-top: 40px;">
-                Happy Valentine's Day, Bestie! 🎉💖
+            <p style="color: #667eea; font-weight: bold; font-size: 1.3em; margin-top: 30px;">
+                Happy Valentine's Day, Bestie! 💖
             </p>
-            <p style="color: #888; font-size: 0.9em; margin-top: 30px; font-style: italic;">
+            <p style="color: #888; font-size: 0.85em; margin-top: 25px; font-style: italic;">
                 Made with love, just for you ❤️
             </p>
         </div>
@@ -1302,8 +1329,13 @@
             const container = button.parentElement;
             const containerRect = container.getBoundingClientRect();
             
-            const maxX = containerRect.width - button.offsetWidth - 100;
-            const maxY = 100;
+            // Add moving class to make it absolutely positioned
+            if (!button.classList.contains('moving')) {
+                button.classList.add('moving');
+            }
+            
+            const maxX = containerRect.width - button.offsetWidth - 40;
+            const maxY = 80;
             
             const randomX = Math.random() * maxX;
             const randomY = (Math.random() - 0.5) * maxY;
@@ -1314,8 +1346,10 @@
 
         function resetNoButton() {
             const button = document.getElementById('noButton');
+            button.classList.remove('moving');
             button.style.left = '';
             button.style.top = '';
+            button.style.transform = '';
         }
 
         function createHeartBurst(event) {
@@ -1351,17 +1385,17 @@
                             typingDiv.remove();
                             addMessage(chatMessages[messageIndex]);
                             messageIndex++;
-                            setTimeout(showNextMessage, 1500);
-                        }, 1000);
+                            setTimeout(showNextMessage, 3000);
+                        }, 1500);
                     } else {
                         addMessage(chatMessages[messageIndex]);
                         messageIndex++;
-                        setTimeout(showNextMessage, 1500);
+                        setTimeout(showNextMessage, 2500);
                     }
                 } else {
                     setTimeout(() => {
                         switchSection('chat-section', 'pre-music-section');
-                    }, 2000);
+                    }, 2500);
                 }
             }
 
