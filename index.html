@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Valentine Surprise</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Great+Vibes&display=swap" rel="stylesheet">
+<title>For My Forever Best Friend 💛</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{
@@ -12,85 +12,301 @@ height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-background:linear-gradient(135deg,#ff758c,#ff7eb3);
+background:radial-gradient(circle at top,#ff9a9e,#fad0c4,#fad0c4);
 font-family:'Poppins',sans-serif;
-overflow:hidden
+overflow:hidden;
 }
+
 .container{
-text-align:center;
-color:white;
-position:relative
-}
-h1{
-font-family:'Great Vibes',cursive;
-font-size:3rem;
-margin-bottom:20px;
-opacity:0;
-transform:translateY(30px);
-transition:1s
-}
-p{
-font-size:1.2rem;
-margin-bottom:30px;
-opacity:0;
-transform:translateY(30px);
-transition:1s
-}
-button{
-padding:12px 30px;
-border:none;
-border-radius:30px;
+width:95%;
+max-width:420px;
+height:85vh;
 background:white;
+border-radius:30px;
+box-shadow:0 30px 60px rgba(0,0,0,0.25);
+position:relative;
+overflow:hidden;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+padding:20px;
+}
+
+.scene{display:none;width:100%;text-align:center}
+.scene.active{display:block;animation:fade 0.7s ease}
+
+@keyframes fade{
+from{opacity:0;transform:translateY(20px)}
+to{opacity:1;transform:translateY(0)}
+}
+
+h2{
+font-family:'Fredoka',sans-serif;
 color:#ff4d6d;
-font-weight:600;
+margin-bottom:15px;
+}
+
+button{
+padding:10px 20px;
+border:none;
+border-radius:25px;
 cursor:pointer;
+margin:8px;
+font-weight:600;
 transition:0.3s;
-box-shadow:0 5px 15px rgba(0,0,0,0.2)
 }
-button:hover{
-transform:scale(1.1)
+
+.yes{background:#ff4d6d;color:white}
+.no{background:#eee}
+
+input{
+padding:10px;
+border-radius:15px;
+border:1px solid #ddd;
+margin-bottom:15px;
+width:80%;
 }
+
+.chat-box{
+height:300px;
+overflow-y:auto;
+background:#fff0f5;
+border-radius:20px;
+padding:15px;
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.message{
+max-width:75%;
+padding:10px 15px;
+border-radius:20px;
+animation:pop 0.3s ease;
+}
+
+.me{
+background:#ff4d6d;
+color:white;
+align-self:flex-end;
+border-bottom-right-radius:5px;
+}
+
+.her{
+background:white;
+align-self:flex-start;
+border-bottom-left-radius:5px;
+}
+
+@keyframes pop{
+from{transform:scale(0.8);opacity:0}
+to{transform:scale(1);opacity:1}
+}
+
+.gallery{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:10px;
+margin-top:15px;
+}
+
+.polaroid{
+background:white;
+padding:10px;
+box-shadow:0 10px 20px rgba(0,0,0,0.2);
+transform:rotate(-5deg);
+animation:drop 0.6s ease forwards;
+opacity:0;
+}
+
+.polaroid img{
+width:100px;
+height:100px;
+object-fit:cover;
+}
+
+@keyframes drop{
+to{opacity:1;transform:rotate(0deg)}
+}
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+pointer-events:none;
+}
+
+.hearts{
+position:absolute;
+width:100%;
+height:100%;
+pointer-events:none;
+}
+
 .heart{
 position:absolute;
-color:white;
-font-size:20px;
-animation:float 6s linear infinite
+font-size:18px;
+animation:float 6s linear infinite;
 }
+
 @keyframes float{
-0%{transform:translateY(0) scale(1);opacity:1}
-100%{transform:translateY(-100vh) scale(1.5);opacity:0}
-}
-.show{
-opacity:1;
-transform:translateY(0)
+0%{transform:translateY(0);opacity:1}
+100%{transform:translateY(-100vh);opacity:0}
 }
 </style>
 </head>
 <body>
+
+<canvas id="confetti"></canvas>
+<div class="hearts" id="hearts"></div>
+
 <div class="container">
-<h1 id="title">Happy Valentine's Day ❤️</h1>
-<p id="message">You make my world brighter, my heart warmer, and my life sweeter.</p>
-<button onclick="startLove()">Tap for a Surprise</button>
+
+<div class="scene active" id="scene1">
+<h2>Hey Bestie 💛</h2>
+<p>Enter your name first...</p>
+<input type="text" id="nameInput" placeholder="Your name">
+<button onclick="start()">Start</button>
+</div>
+
+<div class="scene" id="scene2">
+<h2 id="greeting"></h2>
+<p>Will you stay my best friend forever?</p>
+<button class="yes" onclick="showChat()">YES 💖</button>
+<button class="no" id="noBtn">NO 😒</button>
+</div>
+
+<div class="scene" id="scene3">
+<h2>Our Conversation 💬</h2>
+<div class="chat-box" id="chatBox"></div>
+<button onclick="showGallery()">Next 📸</button>
+</div>
+
+<div class="scene" id="scene4">
+<h2>Our Memories 📸</h2>
+<div class="gallery">
+<div class="polaroid" style="animation-delay:0.2s"><img src="https://picsum.photos/200?1"></div>
+<div class="polaroid" style="animation-delay:0.4s"><img src="https://picsum.photos/200?2"></div>
+<div class="polaroid" style="animation-delay:0.6s"><img src="https://picsum.photos/200?3"></div>
+</div>
+<button onclick="showVoice()">Final Surprise 🎤</button>
+</div>
+
+<div class="scene" id="scene5">
+<h2 id="finalTitle"></h2>
+<p>Press play for something special 💛</p>
+<button class="yes" onclick="playVoice()">Play Voice Message 🎤</button>
+<audio id="voiceMessage">
+<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+</audio>
+</div>
+
 </div>
 
 <script>
-const title=document.getElementById("title")
-const message=document.getElementById("message")
+let userName=""
 
-function startLove(){
-title.classList.add("show")
-message.classList.add("show")
-for(let i=0;i<50;i++){
+function start(){
+userName=document.getElementById("nameInput").value||"Bestie"
+switchScene("scene1","scene2")
+document.getElementById("greeting").innerText="Hi "+userName+" 🥹"
+}
+
+function switchScene(a,b){
+document.getElementById(a).classList.remove("active")
+document.getElementById(b).classList.add("active")
+}
+
+document.getElementById("noBtn").addEventListener("mouseover",()=>{
+let x=Math.random()*200-100
+let y=Math.random()*200-100
+noBtn.style.position="relative"
+noBtn.style.left=x+"px"
+noBtn.style.top=y+"px"
+})
+
+function showChat(){
+switchScene("scene2","scene3")
+startChat()
+launchHearts()
+}
+
+function startChat(){
+let chat=document.getElementById("chatBox")
+let messages=[
+{type:"me",text:"Hey "+userName+" 💛"},
+{type:"her",text:"What now 😂"},
+{type:"me",text:"Just wanted to say something..."},
+{type:"her",text:"Hmmmm 👀"},
+{type:"me",text:"Life is better with you in it."},
+{type:"her",text:"Awww idiot 🥹"},
+{type:"me",text:"Forever best friends?"}
+]
+let i=0
+let interval=setInterval(()=>{
+if(i<messages.length){
+let msg=document.createElement("div")
+msg.className="message "+messages[i].type
+msg.innerText=messages[i].text
+chat.appendChild(msg)
+chat.scrollTop=chat.scrollHeight
+i++
+}else clearInterval(interval)
+},1000)
+}
+
+function showGallery(){
+switchScene("scene3","scene4")
+}
+
+function showVoice(){
+switchScene("scene4","scene5")
+document.getElementById("finalTitle").innerText="Forever, "+userName+" 💛"
+launchConfetti()
+}
+
+function playVoice(){
+document.getElementById("voiceMessage").play()
+}
+
+function launchHearts(){
+for(let i=0;i<30;i++){
 let heart=document.createElement("div")
 heart.className="heart"
-heart.innerHTML="❤️"
+heart.innerHTML="💛"
 heart.style.left=Math.random()*100+"vw"
-heart.style.fontSize=Math.random()*20+15+"px"
 heart.style.animationDuration=Math.random()*3+3+"s"
-document.body.appendChild(heart)
+document.getElementById("hearts").appendChild(heart)
 setTimeout(()=>{heart.remove()},6000)
 }
 }
+
+let canvas=document.getElementById("confetti")
+let ctx=canvas.getContext("2d")
+canvas.width=window.innerWidth
+canvas.height=window.innerHeight
+let pieces=[]
+function launchConfetti(){
+for(let i=0;i<120;i++){
+pieces.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*6+4})
+}
+draw()
+}
+function draw(){
+ctx.clearRect(0,0,canvas.width,canvas.height)
+for(let p of pieces){
+ctx.beginPath()
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2)
+ctx.fillStyle="hsl("+Math.random()*360+",100%,50%)"
+ctx.fill()
+p.y+=2
+if(p.y>canvas.height)p.y=0
+}
+requestAnimationFrame(draw)
+}
 </script>
+
 </body>
 </html>
