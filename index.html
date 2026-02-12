@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine Surprise</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#ff758c,#ff7eb3);
+font-family:'Poppins',sans-serif;
+overflow:hidden
+}
+.container{
+text-align:center;
+color:white;
+position:relative
+}
+h1{
+font-family:'Great Vibes',cursive;
+font-size:3rem;
+margin-bottom:20px;
+opacity:0;
+transform:translateY(30px);
+transition:1s
+}
+p{
+font-size:1.2rem;
+margin-bottom:30px;
+opacity:0;
+transform:translateY(30px);
+transition:1s
+}
+button{
+padding:12px 30px;
+border:none;
+border-radius:30px;
+background:white;
+color:#ff4d6d;
+font-weight:600;
+cursor:pointer;
+transition:0.3s;
+box-shadow:0 5px 15px rgba(0,0,0,0.2)
+}
+button:hover{
+transform:scale(1.1)
+}
+.heart{
+position:absolute;
+color:white;
+font-size:20px;
+animation:float 6s linear infinite
+}
+@keyframes float{
+0%{transform:translateY(0) scale(1);opacity:1}
+100%{transform:translateY(-100vh) scale(1.5);opacity:0}
+}
+.show{
+opacity:1;
+transform:translateY(0)
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1 id="title">Happy Valentine's Day ❤️</h1>
+<p id="message">You make my world brighter, my heart warmer, and my life sweeter.</p>
+<button onclick="startLove()">Tap for a Surprise</button>
+</div>
+
+<script>
+const title=document.getElementById("title")
+const message=document.getElementById("message")
+
+function startLove(){
+title.classList.add("show")
+message.classList.add("show")
+for(let i=0;i<50;i++){
+let heart=document.createElement("div")
+heart.className="heart"
+heart.innerHTML="❤️"
+heart.style.left=Math.random()*100+"vw"
+heart.style.fontSize=Math.random()*20+15+"px"
+heart.style.animationDuration=Math.random()*3+3+"s"
+document.body.appendChild(heart)
+setTimeout(()=>{heart.remove()},6000)
+}
+}
+</script>
+</body>
+</html>
