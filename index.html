@@ -1,329 +1,276 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Forever Best Friends 💛</title>
+<title>A Special Surprise</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
 body{
 height:100vh;
-font-family:'Poppins',sans-serif;
+overflow:hidden;
+background:linear-gradient(135deg,#ffdde1,#ee9ca7);
 display:flex;
 justify-content:center;
 align-items:center;
-overflow:hidden;
-background:linear-gradient(-45deg,#ff9a9e,#fad0c4,#fbc2eb,#a6c1ee);
-background-size:400% 400%;
-animation:gradient 12s ease infinite;
-cursor:none;
+transition:1.5s ease;
 }
 
-@keyframes gradient{
-0%{background-position:0% 50%}
-50%{background-position:100% 50%}
-100%{background-position:0% 50%}
+/* INTRO OVERLAY */
+
+#intro{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:linear-gradient(135deg,#ffdde1,#ee9ca7);
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:999;
+transition:1s ease;
 }
+
+#intro h1{
+color:white;
+font-size:28px;
+margin-bottom:20px;
+text-align:center;
+}
+
+#intro button{
+padding:14px 30px;
+border:none;
+border-radius:30px;
+background:#ff4b7d;
+color:white;
+font-size:16px;
+cursor:pointer;
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* MAIN CARD */
 
 .container{
-width:95%;
+width:92%;
 max-width:420px;
-height:85vh;
-background:rgba(255,255,255,0.25);
-backdrop-filter:blur(15px);
-border-radius:30px;
-box-shadow:0 25px 60px rgba(0,0,0,0.3);
-padding:25px;
+min-height:450px;
+background:rgba(255,255,255,0.3);
+backdrop-filter:blur(20px);
+border-radius:35px;
+padding:40px 25px;
+box-shadow:0 25px 60px rgba(0,0,0,0.2);
+text-align:center;
 position:relative;
 overflow:hidden;
-transition:1s;
+opacity:0;
+transform:scale(0.9);
+transition:1.5s ease;
 }
 
-.scene{display:none;text-align:center}
-.scene.active{display:block;animation:fade 0.6s ease}
-
-@keyframes fade{
-from{opacity:0;transform:translateY(20px)}
-to{opacity:1;transform:translateY(0)}
+.container.active{
+opacity:1;
+transform:scale(1);
 }
 
-h2{margin-bottom:15px;color:#ff3366;font-weight:700}
-button{
-padding:12px 22px;
-border:none;
-border-radius:30px;
-margin:8px;
+.title{
+font-size:26px;
 font-weight:600;
-cursor:pointer;
-transition:0.3s;
-}
-.yes{
-background:#ff3366;
 color:white;
-box-shadow:0 5px 20px rgba(255,51,102,0.4);
-}
-.yes:hover{transform:scale(1.1)}
-.no{background:white}
-
-input{
-padding:10px;
-border-radius:20px;
-border:none;
-width:80%;
-margin-bottom:15px;
+margin-bottom:20px;
 }
 
-.chat{
-height:280px;
-overflow-y:auto;
-background:rgba(255,255,255,0.5);
-border-radius:20px;
-padding:15px;
-display:flex;
-flex-direction:column;
-gap:10px;
-}
-
-.msg{
-padding:10px 15px;
-border-radius:20px;
-max-width:75%;
-animation:pop 0.3s ease;
-}
-.me{
-background:#ff3366;
-color:white;
-align-self:flex-end;
-border-bottom-right-radius:5px;
-}
-.her{
-background:white;
-align-self:flex-start;
-border-bottom-left-radius:5px;
-}
-
-@keyframes pop{
-from{opacity:0;transform:scale(0.8)}
-to{opacity:1;transform:scale(1)}
-}
-
-.glow-text{
-font-size:20px;
-font-weight:600;
-animation:glow 2s ease-in-out infinite alternate;
-}
-@keyframes glow{
-from{text-shadow:0 0 10px #fff}
-to{text-shadow:0 0 25px #ffcc00}
-}
-
-.badge{
-margin-top:20px;
-padding:15px;
-border-radius:50%;
-background:gold;
-width:120px;
-height:120px;
-display:flex;
-justify-content:center;
-align-items:center;
-font-weight:bold;
-animation:pulse 2s infinite;
-}
-@keyframes pulse{
-0%{transform:scale(1)}
-50%{transform:scale(1.1)}
-100%{transform:scale(1)}
-}
-
-.sparkle{
-position:absolute;
-width:6px;
-height:6px;
-background:gold;
-border-radius:50%;
-animation:spark 4s linear infinite;
-}
-@keyframes spark{
-0%{transform:translateY(0);opacity:1}
-100%{transform:translateY(-100vh);opacity:0}
-}
-
-.heart-trail{
-position:absolute;
-pointer-events:none;
+.message{
 font-size:18px;
-animation:fadeOut 1s linear forwards;
-}
-@keyframes fadeOut{
-to{opacity:0;transform:translateY(-20px)}
+color:white;
+min-height:80px;
 }
 
-.final-night{
-background:#0f2027 !important;
-background:linear-gradient(to top,#203a43,#2c5364) !important;
-color:white;
+/* NIGHT MODE */
+
+body.night{
+background:linear-gradient(135deg,#141e30,#243b55);
 }
+
+body.night .container{
+background:rgba(0,0,0,0.6);
+}
+
+/* STARS */
+
+.star{
+position:absolute;
+width:2px;
+height:2px;
+background:white;
+border-radius:50%;
+animation:twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle{
+from{opacity:0.3;}
+to{opacity:1;}
+}
+
+/* FLOATING HEARTS */
+
+.heart{
+position:absolute;
+font-size:20px;
+color:#ffd700;
+animation:float 6s linear forwards;
+}
+
+@keyframes float{
+0%{transform:translateY(0);opacity:1;}
+100%{transform:translateY(-800px);opacity:0;}
+}
+
+/* CONFETTI */
+
+.confetti{
+position:absolute;
+width:8px;
+height:8px;
+background:yellow;
+animation:confettiFall 4s linear forwards;
+}
+
+@keyframes confettiFall{
+0%{transform:translateY(-10px) rotate(0);}
+100%{transform:translateY(800px) rotate(360deg);}
+}
+
 </style>
 </head>
-
 <body>
 
-<div class="container" id="container">
-
-<div class="scene active" id="scene1">
-<h2>Hey Bestie 💛</h2>
-<input type="text" id="nameInput" placeholder="Your name">
-<button class="yes" onclick="start()">Start</button>
+<div id="intro">
+<h1>Tap Once ✨<br>And Let The Magic Begin</h1>
+<button id="startBtn">Start</button>
 </div>
 
-<div class="scene" id="scene2">
-<h2 id="greet"></h2>
-<p>Will you stay my best friend forever?</p>
-<button class="yes" onclick="yesClicked()">YES 💖</button>
-<button class="no" id="noBtn">NO 😒</button>
+<div class="container" id="card">
+<div class="title" id="title"></div>
+<div class="message" id="message"></div>
 </div>
 
-<div class="scene" id="scene3">
-<h2>Our Chat 💬</h2>
-<div class="chat" id="chatBox"></div>
-<button class="yes" onclick="playSong()">Play Surprise 🎵</button>
-</div>
-
-<div class="scene" id="scene4">
-<div class="glow-text" id="typewriter"></div>
-<div class="badge" id="badge" style="display:none;">FOREVER<br>BESTIES</div>
-<div id="quiz" style="display:none;margin-top:20px;">
-<p>What type of bond do we have?</p>
-<button class="yes" onclick="showResult()">Soul-Level Besties 💛</button>
-</div>
-<div id="result" style="display:none;margin-top:15px;font-weight:bold;">
-Exactly. Unbreakable. Always.
-</div>
-</div>
-
-</div>
-
-<audio id="sunshine">
-<source src="sunshine.mp3" type="audio/mpeg">
-</audio>
+<audio id="music" src="sunshine.mp3" loop></audio>
 
 <script>
-let name=""
-function switchScene(a,b){
-document.getElementById(a).classList.remove("active")
-document.getElementById(b).classList.add("active")
+
+const intro = document.getElementById("intro");
+const startBtn = document.getElementById("startBtn");
+const card = document.getElementById("card");
+const title = document.getElementById("title");
+const message = document.getElementById("message");
+const music = document.getElementById("music");
+
+const lines = [
+"Hey ❤️",
+"I know life gets hectic sometimes...",
+"But even in chaos...",
+"You deserve calm.",
+"You deserve warmth.",
+"You deserve someone who stays.",
+"And tonight...",
+"This is just for you."
+];
+
+let index = 0;
+
+startBtn.addEventListener("click", () => {
+
+music.play();
+
+intro.style.opacity = "0";
+setTimeout(()=> intro.style.display="none",1000);
+
+card.classList.add("active");
+
+startStory();
+startHearts();
+
+});
+
+function startStory(){
+typeLine();
 }
 
-function start(){
-name=document.getElementById("nameInput").value||"Bestie"
-document.getElementById("greet").innerText="Hi "+name+" 🥹"
-switchScene("scene1","scene2")
+function typeLine(){
+if(index < lines.length){
+title.innerText = lines[index];
+message.innerText = "";
+let i=0;
+let typing = setInterval(()=>{
+message.innerText += lines[index][i];
+i++;
+if(i >= lines[index].length){
+clearInterval(typing);
+index++;
+setTimeout(typeLine,2000);
 }
-
-let noBtn=document.getElementById("noBtn")
-noBtn.addEventListener("mouseover",moveNo)
-noBtn.addEventListener("click",moveNo)
-
-function moveNo(){
-let container=document.getElementById("container")
-let rect=container.getBoundingClientRect()
-let x=Math.random()*(rect.width-100)
-let y=Math.random()*(rect.height-50)
-noBtn.style.position="absolute"
-noBtn.style.left=x+"px"
-noBtn.style.top=y+"px"
-}
-
-function yesClicked(){
-switchScene("scene2","scene3")
-startChat()
-}
-
-function startChat(){
-let chat=document.getElementById("chatBox")
-let msgs=[
-{name:"me",text:"Hey "+name+" 💛"},
-{name:"her",text:"What now 😂"},
-{name:"me",text:"Just wanted to remind you..."},
-{name:"her",text:"Hmm 👀"},
-{name:"me",text:"You are my sunshine."},
-{name:"her",text:"Shut up 🥹"},
-{name:"me",text:"Forever best friends?"}
-]
-let i=0
-let interval=setInterval(()=>{
-if(i<msgs.length){
-let div=document.createElement("div")
-div.className="msg "+msgs[i].name
-div.innerText=msgs[i].text
-chat.appendChild(div)
-chat.scrollTop=chat.scrollHeight
-i++
-}else clearInterval(interval)
-},900)
-}
-
-function playSong(){
-switchScene("scene3","scene4")
-let audio=document.getElementById("sunshine")
-audio.volume=0
-audio.play()
-let fadeIn=setInterval(()=>{
-if(audio.volume<1){audio.volume+=0.05}
-else clearInterval(fadeIn)
-},200)
-audio.onended=finalSequence
-}
-
-function finalSequence(){
-document.body.classList.add("final-night")
-typeWriter("You are my sunshine, "+name+" 💛\n\nNo matter what happens in life, I’ve got you. Always.")
-launchSparkles()
-setTimeout(()=>{
-document.getElementById("badge").style.display="flex"
-document.getElementById("quiz").style.display="block"
-},4000)
-}
-
-function typeWriter(text){
-let i=0
-function typing(){
-if(i<text.length){
-document.getElementById("typewriter").innerHTML+=text.charAt(i)
-i++
-setTimeout(typing,40)
-}
-}
-typing()
-}
-
-function showResult(){
-document.getElementById("result").style.display="block"
-}
-
-function launchSparkles(){
-for(let i=0;i<50;i++){
-let s=document.createElement("div")
-s.className="sparkle"
-s.style.left=Math.random()*100+"vw"
-s.style.animationDuration=(Math.random()*3+2)+"s"
-document.body.appendChild(s)
-setTimeout(()=>{s.remove()},4000)
+},40);
+}else{
+finalScene();
 }
 }
 
-document.addEventListener("mousemove",e=>{
-let heart=document.createElement("div")
-heart.className="heart-trail"
-heart.innerHTML="💛"
-heart.style.left=e.pageX+"px"
-heart.style.top=e.pageY+"px"
-document.body.appendChild(heart)
-setTimeout(()=>{heart.remove()},1000)
-})
+function finalScene(){
+
+document.body.classList.add("night");
+createStars();
+createConfetti();
+
+title.innerText = "Stay Warm 🌙";
+message.innerText = "No matter what happens, I'm rooting for you.";
+
+}
+
+function startHearts(){
+setInterval(()=>{
+const heart = document.createElement("div");
+heart.classList.add("heart");
+heart.innerText="💛";
+heart.style.left=Math.random()*100+"%";
+heart.style.bottom="0px";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),6000);
+},700);
+}
+
+function createStars(){
+for(let i=0;i<80;i++){
+const star=document.createElement("div");
+star.classList.add("star");
+star.style.top=Math.random()*100+"%";
+star.style.left=Math.random()*100+"%";
+document.body.appendChild(star);
+}
+}
+
+function createConfetti(){
+for(let i=0;i<80;i++){
+const c=document.createElement("div");
+c.classList.add("confetti");
+c.style.left=Math.random()*100+"%";
+c.style.background=`hsl(${Math.random()*360},100%,50%)`;
+document.body.appendChild(c);
+setTimeout(()=>c.remove(),4000);
+}
+}
+
 </script>
 
 </body>
