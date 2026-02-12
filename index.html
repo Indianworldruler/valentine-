@@ -34,6 +34,15 @@
             animation: float-up 4s ease-in infinite;
         }
 
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-20px) scale(1.1);
+            }
+        }
+
         @keyframes float-up {
             0% {
                 transform: translateY(0) rotate(0deg);
@@ -527,6 +536,137 @@
             box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4);
         }
 
+        /* Letter Section */
+        .letter-container {
+            perspective: 1000px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+        }
+
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .envelope:hover {
+            transform: scale(1.05);
+        }
+
+        .envelope-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .envelope-front {
+            position: absolute;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            top: 0;
+            border-radius: 10px 10px 0 0;
+            transform-origin: top;
+            transition: transform 0.8s ease;
+            z-index: 2;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .envelope.open .envelope-front {
+            transform: rotateX(-180deg);
+        }
+
+        .envelope-flap {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 100px solid #764ba2;
+            top: 0;
+            left: 0;
+            z-index: 3;
+            transform-origin: top;
+            transition: transform 0.8s ease;
+        }
+
+        .envelope.open .envelope-flap {
+            transform: rotateX(-180deg);
+        }
+
+        .letter-paper {
+            position: absolute;
+            width: 90%;
+            height: 160%;
+            background: white;
+            top: 20%;
+            left: 5%;
+            border-radius: 8px;
+            padding: 30px 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(0);
+            transition: transform 0.8s ease;
+            z-index: 1;
+            overflow-y: auto;
+        }
+
+        .envelope.open .letter-paper {
+            transform: translateY(-120%);
+        }
+
+        .letter-content {
+            text-align: left;
+            color: #333;
+        }
+
+        .letter-content h3 {
+            color: #764ba2;
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            text-align: center;
+            font-family: 'Brush Script MT', cursive;
+        }
+
+        .letter-content p {
+            font-size: 1em;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-family: 'Georgia', serif;
+        }
+
+        .letter-signature {
+            text-align: right;
+            margin-top: 30px;
+            font-style: italic;
+            color: #764ba2;
+            font-size: 1.1em;
+        }
+
+        .envelope-hint {
+            text-align: center;
+            margin-top: 30px;
+            color: #764ba2;
+            font-size: 1.3em;
+            font-weight: 600;
+            animation: pulse-hint 2s ease-in-out infinite;
+        }
+
+        .final-hearts {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+            font-size: 30px;
+            animation: float 3s ease-in-out infinite;
+        }
+
         .volume-control {
             display: flex;
             align-items: center;
@@ -734,6 +874,30 @@
                 font-size: 1.2em;
                 padding: 12px;
             }
+
+            .envelope {
+                width: 280px;
+                height: 180px;
+            }
+
+            .envelope-flap {
+                border-left: 140px solid transparent;
+                border-right: 140px solid transparent;
+                border-top: 90px solid #764ba2;
+            }
+
+            .letter-paper {
+                padding: 25px 20px;
+                font-size: 0.95em;
+            }
+
+            .letter-content h3 {
+                font-size: 1.4em;
+            }
+
+            .envelope-hint {
+                font-size: 1.1em;
+            }
         }
 
         @media (max-width: 480px) {
@@ -793,6 +957,34 @@
             .final-section p {
                 font-size: 1em;
             }
+
+            .envelope {
+                width: 260px;
+                height: 170px;
+            }
+
+            .envelope-flap {
+                border-left: 130px solid transparent;
+                border-right: 130px solid transparent;
+                border-top: 85px solid #764ba2;
+            }
+
+            .letter-paper {
+                padding: 20px 15px;
+                font-size: 0.9em;
+            }
+
+            .letter-content h3 {
+                font-size: 1.3em;
+            }
+
+            .letter-content p {
+                font-size: 0.95em;
+            }
+
+            .envelope-hint {
+                font-size: 1em;
+            }
         }
 
         /* iPad and tablet specific */
@@ -817,9 +1009,21 @@
     <div class="container">
         <!-- Intro Section -->
         <div class="section active intro-section">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <div style="font-size: 80px; animation: bounce 2s ease-in-out infinite;">💝</div>
+            </div>
             <h1>Hey Bestie! 💛</h1>
-            <p>I made something special for you...</p>
-            <button class="btn btn-yes" onclick="startQuestions()">Let's Go! ✨</button>
+            <p style="font-size: 1.4em; color: #667eea; margin: 20px 0;">You know what? You're absolutely incredible!</p>
+            <p style="font-size: 1.1em; line-height: 1.8; color: #555; margin: 25px 0;">
+                I created something really special just for you... 
+                It's filled with everything I've been wanting to say! ✨
+            </p>
+            <p style="font-size: 1.2em; color: #764ba2; font-weight: 600; margin-top: 30px;">
+                Are you ready for this journey? 🌟
+            </p>
+            <button class="btn btn-yes" onclick="startQuestions()" style="margin-top: 25px; font-size: 1.3em; padding: 18px 45px;">
+                Let's Go! ✨
+            </button>
         </div>
 
         <!-- Questions Section -->
@@ -857,7 +1061,7 @@
                 <p class="artist-name">For My Best Friend 💛</p>
                 <div class="album-art-container">
                     <div class="album-art">
-                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=500&h=500&fit=crop" alt="Best Friends" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'font-size: 80px\'>🤝</div>'">
+                        <img src="https://img.freepik.com/premium-photo/silhouette-two-people-holding-hands_628185-51.jpg" alt="Best Friends" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'font-size: 80px\'>🤝</div>'">
                         <div class="album-art-overlay">
                             <div class="visualizer">
                                 <div class="bar"></div>
@@ -884,27 +1088,11 @@
                     </div>
                 </div>
                 <div class="controls">
-                    <button class="control-btn" onclick="seekBackward()">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M11.5 12L20 18V6l-8.5 6zm-9-6v12l8.5-6L2.5 6z"/>
-                        </svg>
-                    </button>
                     <button class="control-btn play-btn" id="playPauseBtn" onclick="togglePlayPause()">
                         <svg width="16" height="20" viewBox="0 0 16 20" fill="currentColor">
                             <path d="M3 0L16 10L3 20V0Z"/>
                         </svg>
                     </button>
-                    <button class="control-btn" onclick="seekForward()">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M4 18V6l8.5 6L4 18zm9-12v12l8.5-6L13 6z"/>
-                        </svg>
-                    </button>
-                </div>
-                <div class="volume-control">
-                    <span class="volume-icon">🔊</span>
-                    <div class="volume-slider">
-                        <div class="volume-fill"></div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -915,15 +1103,52 @@
             <div class="swipe-hint">👉 Swipe or click to see next card</div>
         </div>
 
+        <!-- Letter Section -->
+        <div class="section letter-section">
+            <h2 style="text-align: center; color: #764ba2; font-size: 2em; margin-bottom: 20px;">One Last Thing... 💌</h2>
+            <p style="text-align: center; color: #555; font-size: 1.1em; margin-bottom: 40px;">I wrote you a letter. Click to open it!</p>
+            <div class="letter-container">
+                <div class="envelope" id="envelope" onclick="openLetter()">
+                    <div class="envelope-back"></div>
+                    <div class="envelope-flap"></div>
+                    <div class="envelope-front"></div>
+                    <div class="letter-paper">
+                        <div class="letter-content">
+                            <h3>To My Dearest Best Friend 💛</h3>
+                            <p>Hey sunshine,</p>
+                            <p>If you're reading this, it means you went through this entire journey I created for you. I hope it made you smile, maybe even made you a little emotional (in a good way!).</p>
+                            <p>I want you to know that you are not just my best friend - you are my family, my confidant, my partner in crime, and my greatest blessing. Life brought us together, and I'm so grateful for that every single day.</p>
+                            <p>There will be tough days ahead, moments when you doubt yourself, times when the world feels heavy. But I want you to remember this: You are stronger than you know, braver than you believe, and more loved than you can imagine.</p>
+                            <p>Thank you for being YOU. For your laugh that lights up rooms, for your kindness that touches hearts, for your strength that inspires me, and for your friendship that means the world to me.</p>
+                            <p>Keep shining bright, my sunshine. The world needs your light! ☀️</p>
+                            <p class="letter-signature">Forever your bestie,<br>With all my love 💛</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="envelope-hint" id="envelopeHint">👆 Click the envelope to read your letter</div>
+        </div>
+
         <!-- Final Section -->
         <div class="section final-section">
+            <div style="font-size: 100px; margin-bottom: 30px; animation: bounce 2s ease-in-out infinite;">🌟</div>
             <h2>You're My Sunshine! 🌞</h2>
-            <p style="font-size: 1.4em; margin: 30px 0;">
+            <p style="font-size: 1.3em; margin: 30px 0; line-height: 1.8;">
                 Thank you for being the most amazing best friend anyone could ask for. 
-                You light up my life in ways you can't even imagine! 💛✨
+                You light up my life in ways you can't even imagine!
             </p>
-            <p style="color: #764ba2; font-weight: bold; font-size: 1.2em;">
+            <div class="final-hearts">
+                <span>💛</span>
+                <span>✨</span>
+                <span>🌟</span>
+                <span>💫</span>
+                <span>⭐</span>
+            </div>
+            <p style="color: #764ba2; font-weight: bold; font-size: 1.4em; margin-top: 40px;">
                 Happy Valentine's Day, Bestie! 🎉💖
+            </p>
+            <p style="color: #888; font-size: 0.9em; margin-top: 30px; font-style: italic;">
+                Made with love, just for you ❤️
             </p>
         </div>
     </div>
@@ -1129,14 +1354,6 @@
             }
         }
 
-        function seekBackward() {
-            audio.currentTime = Math.max(0, audio.currentTime - 10);
-        }
-
-        function seekForward() {
-            audio.currentTime = Math.min(audio.duration, audio.currentTime + 10);
-        }
-
         function updateProgress() {
             const progressFill = document.getElementById('progressFill');
             const currentTimeEl = document.getElementById('currentTime');
@@ -1218,8 +1435,8 @@
                             currentCard++;
                             if (currentCard >= cardsData.length) {
                                 setTimeout(() => {
-                                    switchSection('cards-section', 'final-section');
-                                    createConfetti();
+                                    switchSection('cards-section', 'letter-section');
+                                    createEmojiRain();
                                 }, 500);
                             }
                         }, 500);
@@ -1237,8 +1454,8 @@
                             currentCard++;
                             if (currentCard >= cardsData.length) {
                                 setTimeout(() => {
-                                    switchSection('cards-section', 'final-section');
-                                    createConfetti();
+                                    switchSection('cards-section', 'letter-section');
+                                    createEmojiRain();
                                 }, 500);
                             }
                         }, 500);
@@ -1247,6 +1464,41 @@
 
                 container.appendChild(cardEl);
             });
+        }
+
+        // Open letter function
+        function openLetter() {
+            const envelope = document.getElementById('envelope');
+            const hint = document.getElementById('envelopeHint');
+            
+            if (!envelope.classList.contains('open')) {
+                envelope.classList.add('open');
+                hint.style.display = 'none';
+                createHeartRain();
+                
+                setTimeout(() => {
+                    setTimeout(() => {
+                        switchSection('letter-section', 'final-section');
+                        createConfetti();
+                    }, 8000); // Give time to read the letter
+                }, 1000);
+            }
+        }
+
+        function createHeartRain() {
+            const hearts = ['💛', '💖', '💕', '💗', '💓'];
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'emoji-rain';
+                    heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                    heart.style.animationDelay = Math.random() + 's';
+                    document.body.appendChild(heart);
+                    setTimeout(() => heart.remove(), 6000);
+                }, i * 100);
+            }
         }
 
         // Effects
