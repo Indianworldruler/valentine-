@@ -1383,14 +1383,20 @@
         }
 
         // Cards functionality
+        // Cards functionality
         function initCards() {
             const container = document.getElementById('cardsContainer');
             container.innerHTML = '';
+            currentCard = 0; // Reset currentCard
 
-            cardsData.forEach((card, index) => {
+            // Reverse the array so the first card is on top
+            const reversedCards = [...cardsData].reverse();
+
+            reversedCards.forEach((card, index) => {
                 const cardEl = document.createElement('div');
                 cardEl.className = 'card';
-                cardEl.style.zIndex = cardsData.length - index;
+                cardEl.style.zIndex = index; // Lower index = lower z-index (appears below)
+                cardEl.setAttribute('data-index', cardsData.length - 1 - index); // Store original index
                 cardEl.innerHTML = `
                     <div class="card-emoji">${card.emoji}</div>
                     <h3>${card.title}</h3>
@@ -1399,14 +1405,19 @@
 
                 let startX = 0;
                 let currentX = 0;
+                let isDragging = false;
 
                 cardEl.addEventListener('mousedown', startSwipe);
                 cardEl.addEventListener('touchstart', startSwipe);
 
                 function startSwipe(e) {
-                    if (index !== currentCard) return;
+                    const cardIndex = parseInt(cardEl.getAttribute('data-index'));
+                    if (cardIndex !== currentCard) return;
+                    
+                    isDragging = true;
                     startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
                     cardEl.classList.add('swiping');
+                    cardEl.style.zIndex = 100; // Bring to front while swiping
                     document.addEventListener('mousemove', duringSwipe);
                     document.addEventListener('touchmove', duringSwipe);
                     document.addEventListener('mouseup', endSwipe);
@@ -1414,12 +1425,15 @@
                 }
 
                 function duringSwipe(e) {
+                    if (!isDragging) return;
                     currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
                     const diff = currentX - startX;
                     cardEl.style.transform = `translateX(${diff}px) rotate(${diff * 0.1}deg)`;
                 }
 
                 function endSwipe() {
+                    if (!isDragging) return;
+                    isDragging = false;
                     cardEl.classList.remove('swiping');
                     document.removeEventListener('mousemove', duringSwipe);
                     document.removeEventListener('touchmove', duringSwipe);
@@ -1442,11 +1456,14 @@
                         }, 500);
                     } else {
                         cardEl.style.transform = '';
+                        cardEl.style.zIndex = index;
                     }
+                    currentX = startX; // Reset
                 }
 
-                cardEl.addEventListener('click', () => {
-                    if (index === currentCard) {
+                cardEl.addEventListener('click', (e) => {
+                    const cardIndex = parseInt(cardEl.getAttribute('data-index'));
+                    if (cardIndex === currentCard && !isDragging) {
                         cardEl.style.transform = 'translateX(1000px) rotate(30deg)';
                         cardEl.style.opacity = '0';
                         setTimeout(() => {
