@@ -615,10 +615,14 @@
             transition: transform 0.8s ease;
             z-index: 1;
             overflow-y: auto;
+            opacity: 0;
+            pointer-events: none;
         }
 
         .envelope.open .letter-paper {
             transform: translateY(-120%);
+            opacity: 1;
+            pointer-events: auto;
         }
 
         .letter-content {
@@ -647,6 +651,34 @@
             font-style: italic;
             color: #764ba2;
             font-size: 1.1em;
+        }
+
+        .continue-from-letter-btn {
+            display: block;
+            margin: 25px auto 10px;
+            padding: 15px 45px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .envelope.open .continue-from-letter-btn {
+            opacity: 1;
+            pointer-events: auto;
+            animation: fadeIn 0.8s ease-in 1s forwards;
+        }
+
+        .continue-from-letter-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
         }
 
         .envelope-hint {
@@ -699,7 +731,7 @@
         /* Cards Section */
         .cards-container {
             position: relative;
-            height: 400px;
+            height: 450px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -713,12 +745,12 @@
             padding: 40px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            cursor: grab;
             user-select: none;
+            pointer-events: none;
         }
 
-        .card.swiping {
-            cursor: grabbing;
+        .card.active {
+            pointer-events: auto;
         }
 
         .card h3 {
@@ -749,6 +781,30 @@
             50% {
                 transform: translateY(-10px);
             }
+        }
+
+        .next-card-btn {
+            display: block;
+            margin: 30px auto 0;
+            padding: 15px 50px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .next-card-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+
+        .next-card-btn:active {
+            transform: translateY(-1px);
         }
 
         .swipe-hint {
@@ -870,11 +926,6 @@
                 font-size: 1em;
             }
 
-            .swipe-hint {
-                font-size: 1.2em;
-                padding: 12px;
-            }
-
             .envelope {
                 width: 280px;
                 height: 180px;
@@ -897,6 +948,11 @@
 
             .envelope-hint {
                 font-size: 1.1em;
+            }
+
+            .next-card-btn {
+                font-size: 1.15em;
+                padding: 15px 45px;
             }
         }
 
@@ -946,8 +1002,9 @@
                 font-size: 50px;
             }
 
-            .swipe-hint {
+            .next-card-btn {
                 font-size: 1.1em;
+                padding: 14px 40px;
             }
 
             .final-section h2 {
@@ -998,9 +1055,9 @@
                 max-width: 350px;
             }
 
-            .swipe-hint {
-                font-size: 1.4em;
-                padding: 18px;
+            .next-card-btn {
+                font-size: 1.25em;
+                padding: 16px 50px;
             }
         }
     </style>
@@ -1100,7 +1157,7 @@
         <!-- Cards Section -->
         <div class="section cards-section">
             <div class="cards-container" id="cardsContainer"></div>
-            <div class="swipe-hint">👉 Swipe or click to see next card</div>
+            <button class="next-card-btn" id="nextCardBtn" onclick="nextCard()">Next 💛</button>
         </div>
 
         <!-- Letter Section -->
@@ -1122,6 +1179,7 @@
                             <p>Thank you for being YOU. For your laugh that lights up rooms, for your kindness that touches hearts, for your strength that inspires me, and for your friendship that means the world to me.</p>
                             <p>Keep shining bright, my sunshine. The world needs your light! ☀️</p>
                             <p class="letter-signature">Forever your bestie,<br>With all my love 💛</p>
+                            <button class="continue-from-letter-btn" onclick="goToFinalPage()">Continue 💫</button>
                         </div>
                     </div>
                 </div>
@@ -1386,101 +1444,78 @@
         // Cards functionality
         function initCards() {
             const container = document.getElementById('cardsContainer');
+            const nextBtn = document.getElementById('nextCardBtn');
             container.innerHTML = '';
-            currentCard = 0; // Reset currentCard
+            currentCard = 0;
 
-            // Reverse the array so the first card is on top
-            const reversedCards = [...cardsData].reverse();
-
-            reversedCards.forEach((card, index) => {
+            cardsData.forEach((card, index) => {
                 const cardEl = document.createElement('div');
                 cardEl.className = 'card';
-                cardEl.style.zIndex = index; // Lower index = lower z-index (appears below)
-                cardEl.setAttribute('data-index', cardsData.length - 1 - index); // Store original index
+                cardEl.setAttribute('data-index', index);
+                
+                if (index === 0) {
+                    cardEl.classList.add('active');
+                    cardEl.style.opacity = '1';
+                    cardEl.style.transform = 'scale(1)';
+                } else {
+                    cardEl.style.opacity = '0';
+                    cardEl.style.transform = 'scale(0.9)';
+                }
+                
                 cardEl.innerHTML = `
                     <div class="card-emoji">${card.emoji}</div>
                     <h3>${card.title}</h3>
                     <p>${card.text}</p>
                 `;
 
-                let startX = 0;
-                let currentX = 0;
-                let isDragging = false;
-
-                cardEl.addEventListener('mousedown', startSwipe);
-                cardEl.addEventListener('touchstart', startSwipe);
-
-                function startSwipe(e) {
-                    const cardIndex = parseInt(cardEl.getAttribute('data-index'));
-                    if (cardIndex !== currentCard) return;
-                    
-                    isDragging = true;
-                    startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
-                    cardEl.classList.add('swiping');
-                    cardEl.style.zIndex = 100; // Bring to front while swiping
-                    document.addEventListener('mousemove', duringSwipe);
-                    document.addEventListener('touchmove', duringSwipe);
-                    document.addEventListener('mouseup', endSwipe);
-                    document.addEventListener('touchend', endSwipe);
-                }
-
-                function duringSwipe(e) {
-                    if (!isDragging) return;
-                    currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
-                    const diff = currentX - startX;
-                    cardEl.style.transform = `translateX(${diff}px) rotate(${diff * 0.1}deg)`;
-                }
-
-                function endSwipe() {
-                    if (!isDragging) return;
-                    isDragging = false;
-                    cardEl.classList.remove('swiping');
-                    document.removeEventListener('mousemove', duringSwipe);
-                    document.removeEventListener('touchmove', duringSwipe);
-                    document.removeEventListener('mouseup', endSwipe);
-                    document.removeEventListener('touchend', endSwipe);
-
-                    const diff = currentX - startX;
-                    if (Math.abs(diff) > 100) {
-                        cardEl.style.transform = `translateX(${diff > 0 ? 1000 : -1000}px) rotate(${diff > 0 ? 30 : -30}deg)`;
-                        cardEl.style.opacity = '0';
-                        setTimeout(() => {
-                            cardEl.remove();
-                            currentCard++;
-                            if (currentCard >= cardsData.length) {
-                                setTimeout(() => {
-                                    switchSection('cards-section', 'letter-section');
-                                    createEmojiRain();
-                                }, 500);
-                            }
-                        }, 500);
-                    } else {
-                        cardEl.style.transform = '';
-                        cardEl.style.zIndex = index;
-                    }
-                    currentX = startX; // Reset
-                }
-
-                cardEl.addEventListener('click', (e) => {
-                    const cardIndex = parseInt(cardEl.getAttribute('data-index'));
-                    if (cardIndex === currentCard && !isDragging) {
-                        cardEl.style.transform = 'translateX(1000px) rotate(30deg)';
-                        cardEl.style.opacity = '0';
-                        setTimeout(() => {
-                            cardEl.remove();
-                            currentCard++;
-                            if (currentCard >= cardsData.length) {
-                                setTimeout(() => {
-                                    switchSection('cards-section', 'letter-section');
-                                    createEmojiRain();
-                                }, 500);
-                            }
-                        }, 500);
-                    }
-                });
-
                 container.appendChild(cardEl);
             });
+
+            // Update button text for last card
+            updateNextButton();
+        }
+
+        function nextCard() {
+            const cards = document.querySelectorAll('.card');
+            const currentCardEl = cards[currentCard];
+            
+            if (currentCardEl) {
+                // Animate current card out
+                currentCardEl.style.transition = 'all 0.6s ease';
+                currentCardEl.style.transform = 'translateX(-100%) scale(0.8)';
+                currentCardEl.style.opacity = '0';
+                
+                setTimeout(() => {
+                    currentCardEl.classList.remove('active');
+                    currentCard++;
+                    
+                    if (currentCard < cardsData.length) {
+                        // Show next card
+                        const nextCardEl = cards[currentCard];
+                        nextCardEl.classList.add('active');
+                        nextCardEl.style.transition = 'all 0.6s ease';
+                        nextCardEl.style.transform = 'scale(1)';
+                        nextCardEl.style.opacity = '1';
+                        
+                        updateNextButton();
+                    } else {
+                        // All cards done, go to letter
+                        setTimeout(() => {
+                            switchSection('cards-section', 'letter-section');
+                            createEmojiRain();
+                        }, 300);
+                    }
+                }, 100);
+            }
+        }
+
+        function updateNextButton() {
+            const nextBtn = document.getElementById('nextCardBtn');
+            if (currentCard === cardsData.length - 1) {
+                nextBtn.textContent = 'Continue ✨';
+            } else {
+                nextBtn.textContent = 'Next 💛';
+            }
         }
 
         // Open letter function
@@ -1492,14 +1527,13 @@
                 envelope.classList.add('open');
                 hint.style.display = 'none';
                 createHeartRain();
-                
-                setTimeout(() => {
-                    setTimeout(() => {
-                        switchSection('letter-section', 'final-section');
-                        createConfetti();
-                    }, 8000); // Give time to read the letter
-                }, 1000);
             }
+        }
+
+        // Go to final page from letter
+        function goToFinalPage() {
+            switchSection('letter-section', 'final-section');
+            createConfetti();
         }
 
         function createHeartRain() {
